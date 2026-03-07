@@ -18,7 +18,7 @@ document.getElementById('rsvpBtn').addEventListener('click', function () {
     const formURL = "https://docs.google.com/forms/u/0/d/e/YOUR_FORM_ID_HERE/formResponse";
 
     // 2. Replace 'entry.XXXXX' with your actual Entry ID
-    const entryID = "entry.123456789";
+    const entryID = "entry.118511384";
 
     // Create the data to send
     const formData = new FormData();
@@ -41,4 +41,5 @@ document.getElementById('rsvpBtn').addEventListener('click', function () {
             alert("Oops! Something went wrong. Please try again.");
             console.error(error);
         });
+
 });

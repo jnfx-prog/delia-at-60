@@ -15,7 +15,7 @@ document.getElementById('rsvpBtn').addEventListener('click', function () {
 
     // --- GOOGLE FORM CONFIGURATION ---
     // 1. Replace the URL below with your Form's "viewform" URL, but change "viewform" to "formResponse"
-    const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSe-bYTF0CB08vVxn38CoooKF43357qKcNB4uu-dDByYTMJUZA/viewform";
+    const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSe-bYTF0CB08vVxn38CoooKF43357qKcNB4uu-dDByYTMJUZA/formResponse";
 
     // 2. Replace 'entry.XXXXX' with your actual Entry ID
     const entryID = "entry.118511384";
@@ -43,5 +43,6 @@ document.getElementById('rsvpBtn').addEventListener('click', function () {
         });
 
 });
+
 
 

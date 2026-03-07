@@ -1,0 +1,302 @@
+/* --- 1. DESIGN VARIABLES --- */
+:root {
+    /* Gold & Yellow Palette */
+    --gold-main: #D4AF37;
+    /* Classic Gold */
+    --gold-highlight: #FBF1A9;
+    /* Bright Shine */
+    --gold-deep: #997300;
+    /* Shadow Gold */
+
+    /* Neutral Palette */
+    --white-glass: rgba(255, 255, 255, 0.92);
+    /* For the Card Background */
+    --cream-light: #FCFBF4;
+    --text-dark: #2D2D2D;
+    --text-muted: #5F5F5F;
+
+    /* Typography */
+    --font-heading: 'Cinzel Decorative', cursive;
+    --font-body: 'Playfair Display', serif;
+}
+
+/* --- 2. GLOBAL SETUP & BACKGROUND --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* BACKGROUND IMAGE SETTINGS */
+    /* Replace 'background.jpg' with your filename if it's different */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Parallax effect */
+    background-repeat: no-repeat;
+    background-color: var(--cream-light);
+    /* Fallback color */
+
+    /* Centering the Invitation */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    overflow-x: hidden;
+}
+
+/* Entrance Animation Control (Triggered by JS) */
+body.hidden-content .main-container {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.main-container {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1.8s ease-out, transform 1.2s ease-out;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+}
+
+/* --- 3. THE INVITATION CARD (GLASS EFFECT) --- */
+.card {
+    background: var(--white-glass);
+    backdrop-filter: blur(8px);
+    /* Blurs the background image behind the card */
+    -webkit-backdrop-filter: blur(8px);
+    /* Safari support */
+
+    padding: 3.5rem 2.5rem;
+    border-radius: 4px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 550px;
+    width: 100%;
+    border: 1px solid var(--gold-main);
+    /* Thin gold frame */
+    position: relative;
+    z-index: 10;
+}
+
+/* Decorative Gold Accents */
+.card::before,
+.card::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    height: 100%;
+    pointer-events: none;
+}
+
+.card::before {
+    top: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    /* Inner border effect */
+}
+
+/* --- 4. TYPOGRAPHY & TITLES --- */
+header {
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.pre-title {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.main-title {
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    line-height: 1.2;
+    color: var(--text-dark);
+}
+
+/* Metallic Gold Shine Effect */
+.golden-text {
+    background: linear-gradient(to right,
+            var(--gold-deep) 0%,
+            var(--gold-main) 22%,
+            var(--gold-highlight) 45%,
+            var(--gold-main) 50%,
+            var(--gold-deep) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* Watermark 60 */
+.sixty-motif {
+    font-family: var(--font-heading);
+    font-size: 8rem;
+    color: var(--gold-main);
+    opacity: 0.08;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+/* --- 5. DETAILS SECTION --- */
+.details {
+    margin-bottom: 2rem;
+}
+
+.honor {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text-muted);
+}
+
+.name {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 1rem 0;
+    letter-spacing: 1px;
+}
+
+.gold-line {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-main), transparent);
+    margin: 1.5rem auto;
+    width: 70%;
+}
+
+.time-place {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    line-height: 1.8;
+}
+
+.dot {
+    color: var(--gold-main);
+    margin: 0 8px;
+    font-weight: bold;
+}
+
+/* --- 6. RSVP BUTTON & INTERACTION --- */
+footer {
+    margin-top: 2rem;
+}
+
+button {
+    background: linear-gradient(45deg, var(--gold-deep), var(--gold-main));
+    color: white;
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 15px rgba(153, 115, 0, 0.3);
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(153, 115, 0, 0.5);
+    background: linear-gradient(45deg, var(--gold-main), var(--gold-highlight));
+    color: var(--gold-deep);
+}
+
+.hidden-message {
+    display: none;
+    font-size: 1.3rem;
+    color: var(--gold-deep);
+    font-weight: 600;
+    animation: fadeInUp 0.8s forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- 7. MOBILE RESPONSIVENESS --- */
+@media (max-width: 480px) {
+    .card {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .main-title {
+        font-size: 2rem;
+    }
+
+    .name {
+        font-size: 1.6rem;
+    }
+
+    .sixty-motif {
+        font-size: 5rem;
+    }
+}
+
+/* --- Name Input Styling --- */
+#guestName {
+    width: 80%;
+    padding: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--gold-main);
+    background: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--text-dark);
+    outline: none;
+    transition: 0.3s;
+}
+
+#guestName:focus {
+    background: white;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.guest-link-container {
+    margin-top: 2rem;
+}
+
+.view-guests {
+    font-size: 0.8rem;
+    text-decoration: none;
+    color: var(--gold-deep);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.view-guests:hover {
+    opacity: 1;
+    text-decoration: underline;
+}

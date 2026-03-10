@@ -1,69 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guest List - 60th Birthday</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .guest-card {
-            max-width: 400px;
-            margin: auto;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-
-        li {
-            padding: 10px;
-            border-bottom: 1px solid #D4AF37;
-            color: #333;
-            font-size: 1.2rem;
-        }
-
-        .back-link {
-            display: block;
-            margin-top: 30px;
-            color: #D4AF37;
-            text-decoration: none;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Guest List - 60th Birthday</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .guest-card { max-width: 520px; margin: 24px auto; text-align: center; }
+    .guest-list { margin-top: 18px; padding: 0; list-style: none; }
+    .guest-list li { padding: 12px 10px; border-bottom: 1px solid #D4AF37; color: #333; font-size: 1.05rem; }
+    .back-link { display: inline-block; margin-top: 22px; color: #D4AF37; text-decoration: none; }
+    .sheet-actions { margin-top: 14px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+    .small-note { color: #5F5F5F; font-size: 0.95rem; margin-top: 8px; }
+    .copy-btn { background: transparent; border: 1px solid #D4AF37; color: #D4AF37; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+    .copy-btn:focus { outline: 3px solid rgba(212,175,55,0.25); outline-offset: 2px; }
+  </style>
 </head>
-
 <body>
-    <div class="main-container">
-        <div class="card guest-card">
-            <h1 class="main-title"><span class="golden-text">Guest List</span></h1>
-            <p>To maintain privacy, the live guest list is hosted securely.</p>
-            <br>
-            <a href="https://docs.google.com/spreadsheets/d/1wIa8lcHa3iqrYRqbOad-xPlY7CrCa5_LhykngieVwVA/edit?usp=sharing"
-                target="_blank" class="view-guests" style="font-weight: bold; font-size: 1.1rem;">
-                Click to View Confirmed Guests ✨
-            </a>
-            <br>
-            <a href="index.html" class="back-link">← Back to Invitation</a>
+  <div class="main-container">
+    <div class="card guest-card" role="region" aria-labelledby="guest-heading">
+      <h1 id="guest-heading" class="main-title"><span class="golden-text">Guest List</span></h1>
 
-        </div>
+      <p class="small-note">This list is pulled from the published guest sheet. If you prefer not to be listed, please contact the host.</p>
 
-        <script>
-            const listContainer = document.getElementById('list');
-            const guests = JSON.parse(localStorage.getItem('partyGuests')) || [];
+      <ul id="list" class="guest-list" aria-live="polite" aria-atomic="true">
+        <li>Loading guest list…</li>
+      </ul>
 
-            if (guests.length === 0) {
-                listContainer.innerHTML = "<li>No guests have RSVP'd yet.</li>";
-            } else {
-                guests.forEach(name => {
-                    const li = document.createElement('li');
-                    li.textContent = name;
-                    listContainer.appendChild(li);
-                });
-            }
-        </script>
+      <div class="sheet-actions">
+        <a id="sheetLink" class="view-guests" href="#" target="_blank" rel="noopener noreferrer" style="font-weight:600;">
+          Open Confirmed Guests ✨
+        </a>
+        <button id="copyLink" class="copy-btn" type="button">Copy Sheet Link</button>
+      </div>
+
+      <a href="index.html" class="back-link">← Back to Invitation</a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // Replace this with your published CSV URL from Google Sheets (File → Publish to the web → CSV)
+      const GUESTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQyZkqdY72fUCClENnmgKSwHr4Wcy3BWXHlfELKjmM2PqnpkEeu1Piaj5vPrDFnEbX8sn0iGOj6CcML/pub?output=csv';
+
+      const listEl = document.getElementById('list');
+      const sheetLinkEl = document.getElementById('sheetLink');
+      const copyBtn = document.getElementById('copyLink');
+
+      sheetLinkEl.href = GUESTS_CSV_URL;
+
+      // Simple CSV parser for one-column lists (handles quoted values)
+      function parseCSV(text) {
+        const rows = [];
+        const lines = text.split(/\r?\n/);
+        for (let line of lines) {
+          if (!line.trim()) continue;
+          // Remove surrounding quotes if present
+          if (line.startsWith('"') && line.endsWith('"')) {
+            line = line.slice(1, -1).replace(/""/g, '"');
+          }
+          rows.push(line);
+        }
+        return rows;
+      }
+
+      // Fetch the CSV and populate the list
+      fetch(GUESTS_CSV_URL)
+        .then(response => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.text();
+        })
+        .then(csvText => {
+          const rows = parseCSV(csvText);
+          listEl.innerHTML = '';
+          if (rows.length === 0) {
+            const li = document.createElement('li');
+            li.textContent = "No guests have RSVP'd yet.";
+            listEl.appendChild(li);
+            return;
+          }
+          rows.forEach(name => {
+            const li = document.createElement('li');
+            li.textContent = name;
+            listEl.appendChild(li);
+          });
+        })
+        .catch(err => {
+          console.error('Failed to load guest list', err);
+          listEl.innerHTML = '<li>Unable to load guest list right now.</li>';
+        });
+
+      // Copy link convenience
+      copyBtn.addEventListener('click', function () {
+        if (!navigator.clipboard) {
+          const tmp = document.createElement('textarea');
+          tmp.value = GUESTS_CSV_URL;
+          document.body.appendChild(tmp);
+          tmp.select();
+          try { document.execCommand('copy'); alert('Link copied to clipboard'); } catch (e) { alert('Copy failed'); }
+          tmp.remove();
+          return;
+        }
+        navigator.clipboard.writeText(GUESTS_CSV_URL)
+          .then(() => { copyBtn.textContent = 'Link Copied'; setTimeout(() => copyBtn.textContent = 'Copy Sheet Link', 1800); })
+          .catch(() => { alert('Unable to copy link'); });
+      });
+    })();
+  </script>
 </body>
-
 </html>

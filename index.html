@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delia @60: You're Invited</title>
+    <title>Elegance at 60: You're Invited</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Playfair+Display:wght@400;600&display=swap"
         rel="stylesheet">
@@ -34,31 +34,31 @@
                 <hr class="gold-line">
                 <p class="time-place">
                     SUNDAY, APRIL 19, 2026<br>
-                    1:00 PM <span class="dot">•</span> Brgy. Cabalhin Covered Court
+                    1:00 PM <span class="dot">•</span> Calubian, Leyte
                 </p>
             </section>
 
             <footer>
-                <div id="rsvp-form">
-                    <input type="text" id="guestName" placeholder="Your Full Name" required>
-                    <br>
-                    <button id="rsvpBtn">Kindly RSVP</button>
-                </div>
+  <!-- Semantic form for progressive enhancement -->
+  <form id="rsvp-form" class="rsvp-form" autocomplete="off" novalidate>
+    <label for="guestName" class="visually-hidden">Your full name</label>
+    <input type="text" id="guestName" name="guestName" placeholder="Your Full Name" maxlength="80" required aria-required="true" />
+    <button id="rsvpBtn" type="submit">Kindly RSVP</button>
+  </form>
 
-                <p id="message" class="hidden-message">
-                    We've added you to the guest list, <span id="displayName"></span>! ✨
-                </p>
+  <p id="message" class="hidden-message" role="status" aria-live="polite">
+    <!-- Message content will be set by script -->
+  </p>
 
-                <div class="guest-link-container">
-                    <a href="guests.html" class="view-guests">View Guest List</a>
-                </div>
-            </footer>
+  <div class="guest-link-container">
+    <a href="guests.html" class="view-guests">View Guest List</a>
+  </div>
+</footer>
 
             <div class="ornament bottom-ornament"></div>
         </div>
     </div>
     <script src="script.js"></script>
 </body>
-
 
 </html>

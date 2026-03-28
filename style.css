@@ -30,14 +30,40 @@
 body {
     /* BACKGROUND IMAGE SETTINGS */
     /* Replace 'background.jpg' with your filename if it's different */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    /* Parallax effect */
-    background-repeat: no-repeat;
-    background-color: var(--cream-light);
-    /* Fallback color */
+   /* Fullscreen background image */
+.bg-image {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  background-image: url('background.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+  filter: brightness(0.92) saturate(0.95);
+}
+
+/* Optional dark overlay to improve text contrast */
+.bg-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12));
+  pointer-events: none;
+}
+
+/* Ensure main content sits above the background */
+.main-container {
+  position: relative;
+  z-index: 10;
+}
+
+/* Mobile fallback: use a smaller image or hide video to save bandwidth */
+@media (max-width: 600px) {
+  .bg-image {
+    background-image: url('background_m.jpg');
+  }
+}
 
     /* Centering the Invitation */
     display: flex;

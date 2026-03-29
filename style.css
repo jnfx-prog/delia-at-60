@@ -358,3 +358,23 @@ button:hover {
   white-space: nowrap;
   border: 0; padding: 0; margin: -1px;
 }
+/* --- RSVP Form Layout --- */
+.rsvp-form {
+    display: flex;
+    flex-direction: column; /* Stacks items vertically */
+    align-items: center;    /* Centers the input and button horizontally */
+    width: 100%;
+}
+
+#guestName {
+    /* I noticed you have width: 80%; already. 
+       This ensures the button and input stay consistent. */
+    width: 80%; 
+    max-width: 400px; /* Optional: prevents it from getting too wide on desktop */
+}
+
+#rsvpBtn {
+    /* Optional: making the button match the width of the textbox */
+    width: 80%;
+    max-width: 400px;
+}
